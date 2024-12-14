@@ -1,0 +1,6 @@
+master:
+  replicas: 1
+  image: your-repo/jmeter:latest
+agents:
+  replicas: 3
+  image: your-repo/jmeter:latest

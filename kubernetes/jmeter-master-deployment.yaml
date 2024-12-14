@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jmeter-master
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jmeter-master
+  template:
+    metadata:
+      labels:
+        app: jmeter-master
+    spec:
+      containers:
+        - name: jmeter-master
+          image: your-repo/jmeter:latest
+          command: ["jmeter"]
+          args: ["-n", "-t", "/test/test.jmx", "-R", "<agent-hosts>"]
+          volumeMounts:
+            - name: test-volume
+              mountPath: /test
+      volumes:
+        - name: test-volume
+          configMap:
+            name: jmeter-test

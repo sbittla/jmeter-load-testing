@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jmeter-agent
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: jmeter-agent
+  template:
+    metadata:
+      labels:
+        app: jmeter-agent
+    spec:
+      containers:
+        - name: jmeter-agent
+          image: your-repo/jmeter:latest
+          command: ["jmeter-server"]
