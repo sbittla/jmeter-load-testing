@@ -1,0 +1,47 @@
+$minikube start
+* minikube v1.34.0 on Microsoft Windows 11 Home 10.0.22631.4602 Build 22631.4602
+* Unable to pick a default driver. Here is what was considered, in preference order:
+  - docker: Not healthy: "docker version --format {{.Server.Os}}-{{.Server.Version}}:{{.Server.Platform.Name}}" exit status 1: error during connect: Get "http://%2F%2F.%2Fpipe%2FdockerDesktopLinuxEngine/v1.47/version": open //./pipe/dockerDesktopLinuxEngine: The system cannot find the file specified.
+  - docker: Suggestion:  <https://minikube.sigs.k8s.io/docs/drivers/docker/>
+  - hyperv: Not healthy: Hyper-V requires Administrator privileges
+  - hyperv: Suggestion: Right-click the PowerShell icon and select Run as Administrator to open PowerShell in elevated mode. <>
+* Alternatively you could install one of these drivers:
+  - virtualbox: Not installed: unable to find VBoxManage in $PATH
+  - qemu2: Not installed: exec: "qemu-system-x86_64": executable file not found in %PATH%
+  - podman: Not installed: exec: "podman": executable file not found in %PATH%
+
+https://www.virtualbox.org/wiki/Downloads
+
+https://www.qemu.org/download/
+
+https://www.msys2.org/
+
+https://podman.io/docs/installation
+
+$kubectl get nodes
+E1215 09:39:19.938225   20516 memcache.go:265] couldn't get current server API group list: Get "http://localhost:8080/api?timeout=32s": dial tcp [::1]:8080: connectex: No connection could be made because the target machine actively refused it.
+https://discuss.kubernetes.io/t/couldnt-get-current-server-api-group-list-get-http-localhost-8080-api-timeout-32s-dial-tcp-127-0-0-1-connect-connection-refused/25471
+
+Resolve by
+KUBECONFIG=$HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+if this still doesnt resolve. then,
+All you need is to remove containerd service and reinstall it again
+
+
+Install the latest PowerShell for new features and improvements! https://aka.ms/PSWindows
+
+. : File C:\Users\srinivas\OneDrive\Documents\WindowsPowerShell\Microsoft.PowerShell_profile.ps1 cannot be loaded
+because running scripts is disabled on this system. For more information, see about_Execution_Policies at
+https:/go.microsoft.com/fwlink/?LinkID=135170.
+At line:1 char:3
++ . 'C:\Users\srinivas\OneDrive\Documents\WindowsPowerShell\Microsoft.P ...
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : SecurityError: (:) [], PSSecurityException
+    + FullyQualifiedErrorId : UnauthorizedAccess
+https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell-on-windows?view=powershell-7.4#msi
+
+
+powershell run as a administrator
+ minikube start --driver=hyperv

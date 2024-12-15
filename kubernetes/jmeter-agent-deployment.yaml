@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: jmeter-agent
+  namespace: jmeter-ns
 spec:
   replicas: 3
   selector:
@@ -14,5 +15,13 @@ spec:
     spec:
       containers:
         - name: jmeter-agent
-          image: your-repo/jmeter:latest
-          command: ["jmeter-server"]
+          image: justb4/jmeter:latest
+          command:
+            - jmeter
+          args:
+            - -s
+            - -Dserver.rmi.localport=50000
+            - -Dserver_port=1099
+          ports:
+            - containerPort: 1099
+            - containerPort: 50000

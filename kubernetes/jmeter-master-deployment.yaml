@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: jmeter-master
+  namespace: jmeter
 spec:
   replicas: 1
   selector:
@@ -14,13 +15,18 @@ spec:
     spec:
       containers:
         - name: jmeter-master
-          image: your-repo/jmeter:latest
-          command: ["jmeter"]
-          args: ["-n", "-t", "/test/test.jmx", "-R", "<agent-hosts>"]
+          image: justb4/jmeter:latest
+          command:
+            - jmeter
+          args:
+            - -n
+            - -t /tests/HTTPSignInSignOffPlan.jmx
+            - -R jmeter-agent-0.jmeter.svc.cluster.local,jmeter-agent-1.jmeter.svc.cluster.local,jmeter-agent-2.jmeter.svc.cluster.local
+            - -l /tests/test-results.jtl
           volumeMounts:
-            - name: test-volume
-              mountPath: /test
+            - name: jmeter-test-files
+              mountPath: /tests
       volumes:
-        - name: test-volume
-          configMap:
-            name: jmeter-test
+        - name: jmeter-test-files
+          hostPath:
+            path: /path/to/your/test/files
